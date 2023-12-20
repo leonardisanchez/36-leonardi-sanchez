@@ -1,35 +1,36 @@
--- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
---
--- Host: 127.0.0.1    Database: mibasededatos
--- ------------------------------------------------------
--- Server version	5.5.5-10.4.32-MariaDB
+-- Crear una nueva base de datos
+CREATE DATABASE IF NOT EXISTS MiBaseDeDatos;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+-- Usar la base de datos
+USE MiBaseDeDatos;
 
---
--- Dumping events for database 'mibasededatos'
---
+-- almacenar datos del formulario
+CREATE TABLE IF NOT EXISTS DatosFormulario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50),
+    correo_electronico VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(20),
+    comentario TEXT,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_nacimiento DATE,
+    ciudad VARCHAR(50),
+    codigo_postal VARCHAR(10)
+);
 
---
--- Dumping routines for database 'mibasededatos'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+-- Tabla para almacenar categorías
+CREATE TABLE IF NOT EXISTS Categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_categoria VARCHAR(50) NOT NULL,
+    descripcion TEXT
+);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+-- Tabla para establecer la relación entre DatosFormulario y Categorias
+CREATE TABLE IF NOT EXISTS DatosFormularioCategorias (
+    id_datosformulario INT,
+    id_categoria INT,
+    PRIMARY KEY (id_datosformulario, id_categoria),
+    FOREIGN KEY (id_datosformulario) REFERENCES DatosFormulario(id),
+    FOREIGN KEY (id_categoria) REFERENCES Categorias(id)
+);
 
--- Dump completed on 2023-12-20 13:42:55
